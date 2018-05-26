@@ -1,0 +1,22 @@
+{
+  "plugins": [
+    "node"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended"
+  ],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "no-console": 0,
+    "linebreak-style": 0,
+    "object-curly-spacing": 0,
+    "import/extensions": 0,
+    "import/first": 0,
+    "max-len": 0,
+    "node/no-unpublished-require": 0
+  }
+}

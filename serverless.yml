@@ -1,0 +1,57 @@
+# Serverless config file
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+
+service: cloudwatch-splunk
+
+plugins: {}  
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+# you can overwrite defaults here
+  stage: prod
+  region: us-east-1
+  memorySize: 1024 # Overwrite the default memory size. Default is 1024
+  timeout: 30 # optional, in seconds, default is 6
+
+  environment:
+    SPLUNK_HEC_URL: <splunk_url_here> # for example http://192.168.1.1:8080/services/collector/event
+    SPLUNK_HEC_TOKEN: <splunk_hec_token_here> 
+    
+
+  # you can add statements to the Lambda function's IAM Role here
+  # Not used as function doesn't access any AWS services
+  # iamRoleStatements:
+  #   - Effect: "Allow"
+  #     Action:
+  #       - xray:PutTelemetryRecords
+  #       - xray:PutTraceSegments
+  #     Resource: "*"
+
+functions:
+  forwarder:
+    handler: src/index.handler    
+    # if splunk is running within a vpc, you can run the lambda within the vpc too and avoid opening the hec interface to the world
+    # uncomment the following section and set proper security group and subnet ids
+    # vpc:
+    #   securityGroupIds:
+    #     - sg-xxxxxxx
+    #   subnetIds:
+    #     - subnet-xxxxxxxx          
+    #     - subnet-yyyyyyyy
+    events:
+      #modify to specify what logs to receive events from
+      - cloudwatchLog:
+          logGroup: '/aws/lambda/my-function'
+          filter: ACCESS_LOG
+      - cloudwatchLog:
+          logGroup: '/aws/lambda/my-other-function'
+          filter: ACCESS_LOG      
+       
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+  

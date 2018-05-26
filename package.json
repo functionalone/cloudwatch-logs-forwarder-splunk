@@ -1,0 +1,25 @@
+{
+  "name": "cloudwatch-logs-forwarder-splunk",
+  "version": "1.0.0",
+  "description": "AWS Lambda function to push cloudwatch logs to Splunk HTTP event collector (HEC). Based upon: https://github.com/splunk/splunk-aws-serverless-apps/tree/master/splunk-cloudwatch-logs-processor .",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "test": "mocha ./test/**/*.test.js",
+    "sls": "sls"
+  },
+  "author": "Functional One, Ltd",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-plugin-node": "^6.0.1",
+    "mocha": "^5.1.1"
+  },
+  "dependencies": {
+    "splunk-logging": "^0.9.3"
+  },
+  "engines": {
+    "node": ">=6.10.0"
+  }
+}
